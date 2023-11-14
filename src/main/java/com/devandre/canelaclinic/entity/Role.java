@@ -1,6 +1,7 @@
 package com.devandre.canelaclinic.entity;
 
 import com.devandre.canelaclinic.entity.shared.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,8 +29,9 @@ public class Role extends AbstractEntity {
     @Column(name = "name", nullable = false, length = 45, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @ToString.Exclude
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @Override
