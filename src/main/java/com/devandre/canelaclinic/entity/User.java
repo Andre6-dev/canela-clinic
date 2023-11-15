@@ -70,7 +70,7 @@ public class User extends AbstractEntity {
         return Objects.hash(userId, username, password);
     }
 
-    public void assignRoleToUSer(Role role) {
+    public void assignRoleToUser(Role role) {
         this.roles.add(role);
         role.getUsers().add(this);
     }

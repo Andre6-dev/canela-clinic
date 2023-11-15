@@ -20,6 +20,9 @@ public class Constants {
             public static final String GENERIC_ERROR = "Generic error";
             public static final String URI_GENERIC_ERROR_MESSAGE = API_BASE_PATH + "errors/generic";
 
+            public static final String SERVER_ERROR = "Server error";
+            public static final String URI_SERVER_ERROR_MESSAGE = API_BASE_PATH + "errors/server-error";
+
         }
     }
 }

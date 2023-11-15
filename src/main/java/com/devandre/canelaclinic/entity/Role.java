@@ -31,7 +31,6 @@ public class Role extends AbstractEntity {
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @ToString.Exclude
-    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     @Override
