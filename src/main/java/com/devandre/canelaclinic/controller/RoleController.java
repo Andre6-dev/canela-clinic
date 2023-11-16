@@ -54,4 +54,9 @@ public class RoleController {
     public ResponseEntity<Object> updateRole(@PathVariable("roleId") Long roleId, @Valid @RequestBody RoleDto roleDto) {
         return ResponseHandler.response(HttpStatus.OK, roleService.updateRole(roleId, roleDto), true);
     }
+
+    @GetMapping("/users/{roleId}")
+    public ResponseEntity<Object> getUsersByRole(@PathVariable("roleId") Long roleId) {
+        return ResponseHandler.response(HttpStatus.OK, roleService.getUsersByRoleId(roleId), true);
+    }
 }

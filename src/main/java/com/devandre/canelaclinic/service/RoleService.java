@@ -2,15 +2,19 @@ package com.devandre.canelaclinic.service;
 
 import com.devandre.canelaclinic.dao.RoleDao;
 import com.devandre.canelaclinic.dto.RoleDto;
+import com.devandre.canelaclinic.dto.UsersByRoleDto;
 import com.devandre.canelaclinic.entity.Role;
 import com.devandre.canelaclinic.exception.common.RequestValidationException;
 import com.devandre.canelaclinic.exception.common.ResourceNotFoundException;
 import com.devandre.canelaclinic.mapper.RoleMapper;
+import com.devandre.canelaclinic.mapper.UsersByRoleMapper;
+import com.devandre.canelaclinic.mapper.UsersMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * andre on 13/11/2023
@@ -23,9 +27,18 @@ public class RoleService {
 
     private final RoleMapper roleMapper;
 
-    public RoleService(@Qualifier("roleDao") RoleDao roleDao, RoleMapper roleMapper) {
+    private final UsersByRoleMapper usersByRoleMapper;
+
+    private final UsersMapper usersMapper;
+
+    public RoleService(@Qualifier("roleDao") RoleDao roleDao,
+                       RoleMapper roleMapper,
+                       UsersByRoleMapper usersByRoleMapper,
+                       UsersMapper usersMapper) {
         this.roleDao = roleDao;
         this.roleMapper = roleMapper;
+        this.usersByRoleMapper = usersByRoleMapper;
+        this.usersMapper = usersMapper;
     }
 
     public List<RoleDto> getAllRoles() {
@@ -77,5 +90,19 @@ public class RoleService {
         }
 
         return roleMapper.toDto(roleDao.updateRole(role));
+    }
+
+    public List<UsersByRoleDto> getUsersByRoleId(Long roleId) {
+        Optional<Role> role = roleDao.selectRoleById(roleId);
+
+        if (role.isEmpty()) {
+            throw new ResourceNotFoundException("Role with id [%s] not found".formatted(roleId));
+        }
+
+        UsersByRoleDto usersByRoleDto = usersByRoleMapper.toDto(role.get());
+
+        log.info("Getting users by role with id [{}]", roleId);
+
+        return List.of(usersByRoleDto);
     }
 }
